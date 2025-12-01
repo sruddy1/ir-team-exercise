@@ -182,7 +182,7 @@ def fall_enrollment(
         (dfe['Degree'] != 'Non Degree')
     )
 
-    aid_year = term[2:4] + str(int(term[2:4])+1) 
+    aid_year = calc_academic_year_from_term(term) 
     incoming_transfer_cohort = term[0:4] + " " + "Fall, Transfer, Full-Time"
     
     pids = dfp.loc[dfp['AID_YEAR'] == aid_year, id_column].dropna()
