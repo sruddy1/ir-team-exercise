@@ -35,7 +35,7 @@ from ir_pell_accepts.headcount_calcs import (grs_cohort_pell, grs_cohort, total_
                                             second_year_retention_rate, second_year_retention_rate_pell)
 from ir_pell_accepts.clean import remove_leading_zeros
 from ir_pell_accepts.helper import calc_percent, construct_cohort, adjust_term
-from ir_pell_accepts.output import output_results, contruct_results_df
+from ir_pell_accepts.output import output_results
 
 
 # In[ ]:
@@ -166,40 +166,94 @@ pell_nottr_pct = calc_percent(pell_nottr, headcount_nottr, 2)
 pell_transfer_pct = calc_percent(transfer_pell, headcount_transfer, 2)
 ##
 
+cohort_fg = pd.NA
+pell_fg = pd.NA
+cohort_nfg = pd.NA
+cohort_ufg = pd.NA
+def_fg = pd.NA
+comp_fg = pd.NA
 
 
 # In[ ]:
 
 
-## Combine results
+## Collect results by cohort
 
-df_results = contruct_results_df(
-    term                   = term,
-    cohort_first           = cohort_first, 
-    pell_first             = pell_first, 
-    cohort_first_grad_4    = cohort_first_grad_4,
-    pell_first_grad_4      = pell_first_grad_4,
-    cohort_first_grad_6    = cohort_first_grad_6,
-    pell_first_grad_6      = pell_first_grad_6,
-    cohort_first_retention = cohort_first_retention,
-    pell_first_retention   = pell_first_retention,
-    headcount_nottr        = headcount_nottr, 
-    pell_nottr             = pell_nottr,
-    headcount_transfer     = headcount_transfer, 
-    transfer_pell          = transfer_pell, 
-    headcount              = headcount, 
-    pell_first_pct         = pell_first_pct, 
-    pell_nottr_pct         = pell_nottr_pct, 
-    pell_transfer_pct      = pell_transfer_pct
-) 
+current_term_metrics = {
+    'grs_cohort'                : cohort_first,
+    'grs_cohort_pell'           : pell_first,
+    'fall_enrollment'           : headcount_nottr,
+    'fall_enrollment_pelll'     : pell_nottr,
+    'fall_transfer_enrollment'  : headcount_transfer,
+    'fall_transfer_enroll_pell' : transfer_pell,
+    'total_enrollment'          : headcount,
+    'firstgen_enroll'           : cohort_fg,
+    'firstgen_enroll_pell'      : pell_fg,
+    'continuing_gen_enroll'     : cohort_nfg,
+    'unknown_firstgen_enroll'   : cohort_ufg,
+    'firstgen_definition'       : def_fg,
+    'complete_firstgen'         : comp_fg
+}
 
+retention_term_metrics ={
+    'retention_rate'      : cohort_first_retention,
+    'retention_rate_pell' : pell_first_retention
+}
+
+grad4_term_metrics = {
+    'grs_cohort_grad_4yr'      : cohort_first_grad_4,
+    'grs_cohort_pell_grad_4yr' : pell_first_grad_4
+}
+
+grad6_term_metrics = {
+    'grs_cohort_grad_6yr'      : cohort_first_grad_6,
+    'grs_cohort_pell_grad_6yr' : pell_first_grad_6
+}
+
+
+
+# In[ ]:
+
+
+# Combine Results
+
+df_curr_term = pd.DataFrame({
+    'Cohort' : " ".join(["Fall", term[:4]]),
+    'Metric' : current_term_metrics.keys(),
+    'Value'  : current_term_metrics.values()
+})
+
+df_retention_term = pd.DataFrame({
+    'Cohort' : " ".join(["Fall", retention_cohort_term[:4]]),
+    'Metric' : retention_term_metrics.keys(),
+    'Value'  : retention_term_metrics.values()
+})
+
+df_grad4_term = pd.DataFrame({
+    'Cohort' : " ".join(["Fall", grad_term_4[:4]]),
+    'Metric' : grad4_term_metrics.keys(),
+    'Value'  : grad4_term_metrics.values()
+})
+
+df_grad6_term = pd.DataFrame({
+    'Cohort' : " ".join(["Fall", grad_term_6[:4]]),
+    'Metric' : grad6_term_metrics.keys(),
+    'Value'  : grad6_term_metrics.values()
+})
+
+df_results = pd.concat([
+    df_curr_term,
+    df_retention_term,
+    df_grad4_term,
+    df_grad6_term
+])
 
 
 # In[ ]:
 
 
 # Output results
-output_results(df_results, RESULTS_PATH)
+output_results(df=df_results, file_path=RESULTS_PATH, append_today=False, append_version=False)
 
 
 # In[ ]:

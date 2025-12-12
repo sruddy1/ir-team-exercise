@@ -29,52 +29,6 @@ def construct_results_filename(file: Path, append_today: bool = True, append_ver
     return Path("_".join(parts) + file.suffix)
 
 
-def contruct_results_df(
-    term: str,
-    cohort_first: float,
-    pell_first: float,
-    cohort_first_grad_4: float,
-    pell_first_grad_4: float,
-    cohort_first_grad_6: float,
-    pell_first_grad_6: float,
-    cohort_first_retention: float,
-    pell_first_retention: float,
-    headcount_nottr: float,
-    pell_nottr: float,
-    headcount_transfer: float,
-    transfer_pell: float,
-    headcount: float,
-    pell_first_pct: float,
-    pell_nottr_pct: float,
-    pell_transfer_pct: float
-) -> pd.DataFrame:
-    
-    grad_4_year = adjust_term(term=term, years=-4)[:4]
-    grad_6_year = adjust_term(term=term, years=-6)[:4]
-    retention_cohort_term = adjust_term(term=term, years=-1)[:4]
-    
-    results = [{
-        "grs_cohort": cohort_first,
-        "grs_cohort_pell": pell_first,
-        "_".join(["grs_cohort_grad_4yr", grad_4_year]): cohort_first_grad_4,
-        "_".join(["grs_cohort_pell_grad_4yr", grad_4_year]): pell_first_grad_4,
-        "_".join(["grs_cohort_grad_6yr", grad_6_year]): cohort_first_grad_6,
-        "_".join(["grs_cohort_pell_grad_6yr", grad_6_year]): pell_first_grad_6,
-        "_".join(["retention_rate", retention_cohort_term]): cohort_first_retention,
-        "_".join(["retention_rate_pell", retention_cohort_term]): pell_first_retention,
-        "fall_enrollment": headcount_nottr,
-        "fall_enrollment_pell": pell_nottr,
-        "fall_transfer_enrollment": headcount_transfer,
-        "fall_transfer_enroll_pell": transfer_pell,
-        "total_enrollment": headcount,
-        "pell_first_pct": pell_first_pct,
-        "pell_pct": pell_nottr_pct,
-        "pell_transfer_pct": pell_transfer_pct 
-    }]
-
-    return pd.DataFrame(results)
-
-
 def output_results(df: pd.DataFrame, file_path: Path, append_today: bool = True, append_version: bool = True) -> None:
     """
     Output results to excel, csv, or tab/.txt
@@ -89,7 +43,14 @@ def output_results(df: pd.DataFrame, file_path: Path, append_today: bool = True,
     ext = validate_extension(outfile.suffix)
 
     if ext == ".xlsx":
-        df.to_excel(outfile, index=False)
+        with pd.ExcelWriter(
+            outfile,
+            engine="openpyxl",
+            mode="a",
+            if_sheet_exists="replace"
+        ) as writer:
+        
+            df.to_excel(writer, sheet_name="Python Output", index=False)
     if ext == ".csv":
         df.to_csv(outfile, index=False)
     if ext == ".txt":

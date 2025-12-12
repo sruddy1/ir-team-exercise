@@ -11,7 +11,8 @@ box_repo:
   retention_file: "Undergraduate Retention and Graduation.csv"
   enrollment_dir: "C:/Users/sruddy1/Box/Inst Res Collab/Tableau Server Data Sources/Census Date Enrollment"
   enrollment_file: "Census Date Enrollment (Decision Support Curated).csv"
-  results_dir: "C:/Users/sruddy1/Box/Office of Decision Support Analyst Projects/ATI Kessler/Fall 2025 Pell Reporting/Results/Fall 2025"
+  results_dir: "C:/Users/sruddy1/Box/Office of Decision Support Analyst Projects/ATI Kessler/Fall 2025 Pell Reporting"
+  #results_dir: "C:/Users/sruddy1/Box/Office of Decision Support Analyst Projects/ATI Kessler/Fall 2025 Pell Reporting/Results/Fall 2025"
   results_file: "University of Dayton 2025 ATI Prelim.xlsx"
 
 params:

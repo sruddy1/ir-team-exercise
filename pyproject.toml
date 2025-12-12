@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ir_pell_accepts"
-version = "0.3.0"
-description = "0.3.0 includes the calcs for 4/6 year grad rates and 2nd year retention rates"
+version = "0.3.2"
+description = "0.3.1 reorganizes the output to be 3 columns. This allows for outputting metrics across different fall cohorts all together in a clear way (ie grad4/6 year and retention alongside the current fall cohort metrics). 0.3.2 outputs a sheet into an existing file"
 
 [tool.setuptools.packages.find]
 where = ["src"]
