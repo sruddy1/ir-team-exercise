@@ -53,6 +53,7 @@ def generate_ipeds_table_for_carol(dfr: pd.DataFrame, acad_year: str, outpath: s
             Output filtered table to
 
                 '/c/Users/sruddy1/2025-2026 All-Cohorts Student IDs from Undergraduate Retention and Graduation.xlsx'
+    #
     """
     fiscal_year = acad_year[-4:]
 
@@ -121,6 +122,7 @@ def generate_table_for_carol(dfe: pd.DataFrame, term: str, outpath: str | Path) 
             Output filtered table to
 
                 '/c/Users/sruddy1/Fall 2025 Enrolled Full-Time Student IDs from Census Data Enrollment.xlsx'
+    #
     """
     dfe = filter_enrollment_table(dfe=dfe, term=term)
     aid_year = calc_academic_year_from_term(term, two_digit=False)
