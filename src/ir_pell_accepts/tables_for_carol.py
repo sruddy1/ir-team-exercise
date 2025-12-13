@@ -7,7 +7,7 @@ from ir_pell_accepts.helper import calc_academic_year_from_term
 
 def generate_ipeds_table_for_carol(dfr: pd.DataFrame, acad_year: str, outpath: str | Path) -> None:
     """
-    # TEST Generate a table of student IDs for students cohorted into any term of the provided academic year. 
+    # Generate a table of student IDs for students cohorted into any term of the provided academic year. 
     
         This is for Carol to add two flags:
         
