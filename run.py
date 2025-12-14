@@ -25,7 +25,7 @@ from datetime import date
 
 # Project Packages
 from ir_team_exercise.io_utils import infer_and_read_file, output_results
-from ir_team_exercise.paths import CONFIG_PATH
+from ir_team_exercise.config_path import CONFIG_PATH
 from ir_team_exercise.headcount_calcs import (grs_cohort_pell, grs_cohort, total_headcount, 
                                             fall_enrollment, grs_cohort_grad, grs_cohort_pell_grad, 
                                             second_year_retention_rate, second_year_retention_rate_pell)
