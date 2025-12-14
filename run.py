@@ -8,7 +8,7 @@
 # 
 # 
 
-# In[ ]:
+# In[1]:
 
 
 ## Load Packages
@@ -25,21 +25,19 @@ import pandas as pd
 from datetime import date
 from importlib.metadata import version
 from datetime import date
-from importlib.metadata import version
 
 # Project Packages
-from ir_pell_accepts.io_utils import infer_and_read_file
+from ir_pell_accepts.io_utils import infer_and_read_file, output_results
 from ir_pell_accepts.paths import CONFIG_PATH
 from ir_pell_accepts.headcount_calcs import (grs_cohort_pell, grs_cohort, total_headcount, 
                                             fall_enrollment, grs_cohort_grad, grs_cohort_pell_grad, 
                                             second_year_retention_rate, second_year_retention_rate_pell)
 from ir_pell_accepts.clean import remove_leading_zeros
 from ir_pell_accepts.helper import calc_percent, construct_cohort, adjust_term
-from ir_pell_accepts.output import output_results
 from ir_pell_accepts.tables_for_carol import generate_table_for_carol, generate_ipeds_table_for_carol
 
 
-# In[ ]:
+# In[3]:
 
 
 ## Jupyter-Notebook Only -- comment-out when creating .py script
@@ -49,7 +47,7 @@ from ir_pell_accepts.tables_for_carol import generate_table_for_carol, generate_
 # pd.set_option('display.max_seq_items', 1000)
 
 
-# In[ ]:
+# In[2]:
 
 
 ## Load Configuration File and store its values
@@ -82,7 +80,7 @@ grad_term_6 = adjust_term(term=term, years=-6)
 id_column = config["params"]["id_column"]
 
 
-# In[ ]:
+# In[3]:
 
 
 # Test configuation inputs
@@ -108,7 +106,7 @@ if len(term) != 6:
     raise ValueError(f"Value for term, {term}, is invalid. Needs to be a 6 digit numeric. Ex: '202580'")
 
 
-# In[ ]:
+# In[4]:
 
 
 # Read in files (all columns coverted to strings)
@@ -117,7 +115,7 @@ df_ret  = infer_and_read_file(RETENTION_PATH)
 df_enrl = infer_and_read_file(ENROLLMENT_PATH)
 
 
-# In[ ]:
+# In[5]:
 
 
 # Standardize ID column
@@ -126,7 +124,7 @@ df_ret  = remove_leading_zeros(df_ret, column=id_column)
 df_enrl = remove_leading_zeros(df_enrl, column=id_column)
 
 
-# In[ ]:
+# In[6]:
 
 
 # Incoming first-time students
@@ -177,7 +175,7 @@ def_fg = pd.NA
 comp_fg = pd.NA
 
 
-# In[ ]:
+# In[7]:
 
 
 ## Collect results by cohort
@@ -215,7 +213,7 @@ grad6_term_metrics = {
 
 
 
-# In[ ]:
+# In[8]:
 
 
 # Combine Results
@@ -252,7 +250,7 @@ df_results = pd.concat([
 ])
 
 
-# In[ ]:
+# In[10]:
 
 
 # Output Tables for Carol
