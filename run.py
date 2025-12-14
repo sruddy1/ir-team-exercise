@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Pell Report (Fall 25)
-# ## Documentation
-#     - https://udayton.app.box.com/folder/353055993479 - Pell Grant Reporting.docx
-#     - (my-SR) Email: https://mail.google.com/mail/u/0/#inbox/FMfcgzQcqtlTMGnlLKdkfVNwlMWwMgjq
+# # Team Exercise
 # 
-# 
+# ## 12/17/2025
 
 # In[1]:
 
@@ -27,14 +24,14 @@ from importlib.metadata import version
 from datetime import date
 
 # Project Packages
-from ir_pell_accepts.io_utils import infer_and_read_file, output_results
-from ir_pell_accepts.paths import CONFIG_PATH
-from ir_pell_accepts.headcount_calcs import (grs_cohort_pell, grs_cohort, total_headcount, 
+from ir_team_exercise.io_utils import infer_and_read_file, output_results
+from ir_team_exercise.paths import CONFIG_PATH
+from ir_team_exercise.headcount_calcs import (grs_cohort_pell, grs_cohort, total_headcount, 
                                             fall_enrollment, grs_cohort_grad, grs_cohort_pell_grad, 
                                             second_year_retention_rate, second_year_retention_rate_pell)
-from ir_pell_accepts.clean import remove_leading_zeros
-from ir_pell_accepts.helper import calc_percent, construct_cohort, adjust_term
-from ir_pell_accepts.tables_for_carol import generate_table_for_carol, generate_ipeds_table_for_carol
+from ir_team_exercise.clean import remove_leading_zeros
+from ir_team_exercise.helper import calc_percent, construct_cohort, adjust_term
+from ir_team_exercise.tables_for_carol import generate_table_for_carol, generate_ipeds_table_for_carol
 
 
 # In[3]:
@@ -47,7 +44,7 @@ from ir_pell_accepts.tables_for_carol import generate_table_for_carol, generate_
 # pd.set_option('display.max_seq_items', 1000)
 
 
-# In[2]:
+# In[5]:
 
 
 ## Load Configuration File and store its values
@@ -63,12 +60,12 @@ with CONFIG_PATH.open("r") as f:
     config = yaml.safe_load(f)
 
 # File and folder paths
-BOX_ROOT = Path(config["box_repo"]["root"]).expanduser()
-DIR = Path(config["box_repo"]["pell_dir"]).expanduser()
-PELL_PATH = DIR / Path(config["box_repo"]["pell_file"]).expanduser()
-RETENTION_PATH = Path(config["box_repo"]["retention_dir"]).expanduser() / Path(config["box_repo"]["retention_file"]).expanduser()
-ENROLLMENT_PATH = Path(config["box_repo"]["enrollment_dir"]).expanduser() / Path(config["box_repo"]["enrollment_file"]).expanduser()
-RESULTS_PATH = Path(config["box_repo"]["results_dir"])
+USERNAME = Path(config["user"]["name"])
+BOX_ROOT = Path(config["user"]["box_root"]).expanduser()
+PELL_PATH = BOX_ROOT / Path(config["box_repo"]["pell_dir"]).expanduser() / Path(config["box_repo"]["pell_file"]).expanduser()
+RETENTION_PATH = BOX_ROOT / Path(config["box_repo"]["retention_dir"]).expanduser() / Path(config["box_repo"]["retention_file"]).expanduser()
+ENROLLMENT_PATH = BOX_ROOT / Path(config["box_repo"]["enrollment_dir"]).expanduser() / Path(config["box_repo"]["enrollment_file"]).expanduser()
+RESULTS_PATH = BOX_ROOT / Path(config["box_repo"]["results_dir"]) / USERNAME
 RESULTS_FILE = RESULTS_PATH / Path(config["box_repo"]["results_file"])
 
 # Project Parameters
@@ -80,15 +77,12 @@ grad_term_6 = adjust_term(term=term, years=-6)
 id_column = config["params"]["id_column"]
 
 
-# In[3]:
+# In[7]:
 
 
 # Test configuation inputs
 if not BOX_ROOT.exists():
     raise FileNotFoundError(f"Box repo path does not exist: {BOX_ROOT}")
-
-if not DIR.exists():
-    raise FileNotFoundError(f"path does not exist: {DIR}")
 
 if not PELL_PATH.exists():
     raise FileNotFoundError(f"Input Pell file does not exist: {PELL_PATH}")
@@ -248,16 +242,6 @@ df_results = pd.concat([
     df_grad4_term,
     df_grad6_term
 ])
-
-
-# In[10]:
-
-
-# Output Tables for Carol
-
-generate_table_for_carol(dfe=df_enrl, term=term, outpath=RESULTS_PATH)
-generate_ipeds_table_for_carol(dfr=df_ret, acad_year=ipeds_acad_year, outpath=RESULTS_PATH)
-generate_ipeds_table_for_carol(dfr=df_ret, acad_year="-".join([str(int(ipeds_acad_year[:4]) - 1), str(int(ipeds_acad_year[-4:]) - 1)]), outpath=RESULTS_PATH)
 
 
 # In[ ]:

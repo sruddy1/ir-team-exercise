@@ -1,8 +1,8 @@
 import pandas as pd
 from pathlib import Path
 
-from ir_pell_accepts.headcount_calcs import filter_enrollment_table
-from ir_pell_accepts.helper import calc_academic_year_from_term
+from ir_team_exercise.headcount_calcs import filter_enrollment_table
+from ir_team_exercise.helper import calc_academic_year_from_term
 
 
 def generate_ipeds_table_for_carol(dfr: pd.DataFrame, acad_year: str, outpath: str | Path) -> None:

@@ -1,5 +1,4 @@
-#site_name: IR – Pell Accepts Pipeline
-site_name: ir-pell-accepts
+site_name: ir-team-exercise
 site_description: Institutional Research Python pipeline documentation
 site_author: Office of Decision Support
 
@@ -41,15 +40,8 @@ plugins:
         python:
           paths:
             - src
-            - ir-pipelines/ir-pell-accepts/src
+            - ir-pipelines/ir-team-exercise/src
           options:
             show_source: false
             show_signature_annotations: true
             docstring_section_style: table
-#  - mkdocstrings:
-#      handlers:
-#        python:
-#          options:
-#            show_source: false
-#            show_signature_annotations: true
-#            docstring_section_style: table

@@ -2,8 +2,8 @@ from pathlib import Path
 from datetime import date
 from importlib.metadata import version
 import pandas as pd
-from ir_pell_accepts.checks import validate_filename, validate_extension
-from ir_pell_accepts.helper import adjust_term
+from ir_team_exercise.checks import validate_filename, validate_extension
+from ir_team_exercise.helper import adjust_term
 
 
 def construct_results_filename(file: str | Path, append_today: bool = True, append_version: bool = True) -> Path:
@@ -178,14 +178,17 @@ def output_results(df: pd.DataFrame, file_path: Path, append_today: bool = True,
     ext = validate_extension(outfile.suffix)
 
     if ext == ".xlsx":
-        with pd.ExcelWriter(
-            outfile,
-            engine="openpyxl",
-            mode="a",
-            if_sheet_exists="replace"
-        ) as writer:
-        
-            df.to_excel(writer, sheet_name="Python Output", index=False)
+        if outfile.exists():
+            with pd.ExcelWriter(
+                outfile,
+                engine="openpyxl",
+                mode="a",
+                if_sheet_exists="replace"
+            ) as writer:
+            
+                df.to_excel(writer, sheet_name="Python Output", index=False)
+        else:
+            df.to_excel(outfile, index=False)
     if ext == ".csv":
         df.to_csv(outfile, index=False)
     if ext == ".txt":

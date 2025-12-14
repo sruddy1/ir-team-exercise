@@ -1,6 +1,6 @@
 import pandas as pd
-from ir_pell_accepts.helper import calc_academic_year_from_term, construct_cohort, adjust_term, filter_enrollment_table
-from ir_pell_accepts.checks import (validate_columns, required_cohort_columns, 
+from ir_team_exercise.helper import calc_academic_year_from_term, construct_cohort, adjust_term, filter_enrollment_table
+from ir_team_exercise.checks import (validate_columns, required_cohort_columns, 
                                     required_enrollment_columns, required_pell_columns)
 
 
