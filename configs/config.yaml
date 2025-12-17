@@ -3,8 +3,8 @@
 # file types need to stay the same: do not change from xlxs to csv and vice-versa
 
 user:
-  name: "Sean"
-  box_root: "C:/Users/sruddy1/Box"
+  name: "Justin"
+  box_root: "C:/Users/jkeen1/Box"
 
 box_repo:
   pell_dir: "Office of Decision Support Analyst Projects/ATI Kessler/Fall 2025 Pell Reporting"
